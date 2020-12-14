@@ -8,15 +8,20 @@ import { UserService } from '../services/user.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+  currentUser: User;
   constructor(private router: Router,
     private UserService: UserService) {
+    this.UserService.currentUser.subscribe(data => {
+      this.currentUser = data;
+      console.log(this.currentUser);
+    })
 
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const currentUser = this.UserService.currentUserValue;
-    if (currentUser) {
-      if (route.data.roles && route.data.roles.indexOf(currentUser.role) === -1) {
+    if (this.currentUser) {
+      if (route.data.roles && route.data.roles.indexOf(this.currentUser.role) === -1) {
         this.router.navigate(['/401']);
         return false;
       }

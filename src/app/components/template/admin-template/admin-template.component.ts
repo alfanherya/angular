@@ -11,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 export class AdminTemplateComponent implements OnInit {
   currentUser: User;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, public router: Router) {
     this.userService.currentUser.subscribe(data => {
       this.currentUser = data;
     });
